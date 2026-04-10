@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ROLL NANANA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div id="startScreen">
+    <div id="startCard">
+        <p class="eyebrow">Run Banana</p>
+        <h1>LESS GO NANANA</h1>
+        <p class="subtitle">Say NANANA and see how far you can roll.</p>
+        <p class="selectedSummary">Selected Character: <span id="selectedCharacterName">Banana</span></p>
+        <button id="startButton" type="button">Start Game</button>
+        <button id="openCharacterSelectButton" type="button">Select Character</button>
+    </div>
+</div>
+
+<div id="characterSelectScreen" class="hidden">
+    <div id="characterSelectCard">
+        <p class="eyebrow">Choose Your Hero</p>
+        <h2>Select Character</h2>
+        <p class="subtitle">Pick a runner, then we’ll take you back to the start screen.</p>
+        <div class="characterSelectionGrid">
+            <button class="characterSelectOption active" type="button" data-character="banana">
+                <span class="largeCharacterThumb defaultThumb"></span>
+                <span class="largeCharacterName">Banana</span>
+            </button>
+            <button class="characterSelectOption" type="button" data-character="spongebob">
+                <span class="largeCharacterThumb spongebobThumb"></span>
+                <span class="largeCharacterName">SpongeBob</span>
+            </button>
+            <button class="characterSelectOption" type="button" data-character="haya">
+                <span class="largeCharacterThumb hayaThumb"></span>
+                <span class="largeCharacterName">Mighty Haya</span>
+            </button>
+        </div>
+        <button id="backToStartButton" type="button">Back</button>
+    </div>
+</div>
+
+<div id="game">
+    <div id="ui">
+        <h3 id="score">Score: 0</h3>
+        <h3 id="highScore">High Score: 0</h3>
+        <button onclick="goFullScreen()">Fullscreen</button>
+    </div>
+
+    <div id="player"></div>
+    <div id="obstacle"></div>
+    <div id="bird"></div>
+
+    <div id="gameOverBox" class="hidden">
+        <img id="gameOverCharacterImage" class="hidden" src="{{ url_for('static', filename='banana cryingg.png') }}" alt="Crying banana">
+        <h2>Game Over</h2>
+        <div id="gameOverActions">
+            <button onclick="restartGame()">Restart</button>
+            <button id="goBackButton" type="button" onclick="goBackToStart()">Go Back</button>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='game.js') }}"></script>
+</body>
+</html>

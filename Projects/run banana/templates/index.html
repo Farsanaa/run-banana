@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ROLL NANANA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div id="startScreen">
+    <div id="startCard">
+        <p class="eyebrow">Run Banana</p>
+        <h1>less go bananana</h1>
+        <p class="subtitle">Say NANANA and see how far the banana can roll.</p>
+        <div id="characterPicker">
+            <p class="pickerLabel">Choose your character</p>
+            <div class="characterOptions">
+                <button class="characterOption active" type="button" data-character="banana">
+                    <span class="characterThumb defaultThumb"></span>
+                    <span>Banana</span>
+                </button>
+                <button class="characterOption" type="button" data-character="spongebob">
+                    <span class="characterThumb spongebobThumb"></span>
+                    <span>SpongeBob</span>
+                </button>
+            </div>
+        </div>
+        <button id="startButton" type="button">Start Game</button>
+    </div>
+</div>
+
+<div id="game">
+    <div id="ui">
+        <h3 id="score">Score: 0</h3>
+        <h3 id="highScore">High Score: 0</h3>
+        <button onclick="goFullScreen()">Fullscreen</button>
+    </div>
+
+    <div id="player"></div>
+    <div id="obstacle"></div>
+    <div id="bird"></div>
+
+    <div id="gameOverBox" class="hidden">
+        <h2>Game Over</h2>
+        <button onclick="restartGame()">Restart</button>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='game.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: #8ed0f5;
+}
+
+:root {
+    --runner-frame-1: url("/static/run1.png");
+    --runner-frame-2: url("/static/run2.png");
+    --runner-duck-frame: url("/static/run1.png");
+}
+
+#startScreen,
+#characterSelectScreen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+#startScreen {
+    z-index: 100;
+    background:
+        linear-gradient(rgba(21, 70, 95, 0.18), rgba(21, 70, 95, 0.3)),
+        url("/static/bg.jpg") center center / cover no-repeat;
+}
+
+#characterSelectScreen {
+    z-index: 110;
+    background:
+        linear-gradient(rgba(18, 41, 51, 0.28), rgba(18, 41, 51, 0.45)),
+        url("/static/bg.jpg") center center / cover no-repeat;
+}
+
+#startScreen.hidden,
+#characterSelectScreen.hidden {
+    display: none;
+}
+
+#startCard,
+#characterSelectCard {
+    border: 3px solid rgba(24, 43, 54, 0.15);
+    border-radius: 28px;
+    background: rgba(255, 252, 240, 0.94);
+    box-shadow: 0 24px 60px rgba(23, 48, 59, 0.25);
+    text-align: center;
+}
+
+#startCard {
+    width: min(560px, calc(100vw - 48px));
+    padding: 44px 40px;
+}
+
+#characterSelectCard {
+    width: min(980px, calc(100vw - 48px));
+    padding: 44px 40px;
+}
+
+.eyebrow {
+    margin: 0 0 12px;
+    color: #855d09;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+#startCard h1,
+#characterSelectCard h2 {
+    margin: 0 0 14px;
+    color: #17303b;
+    line-height: 1.05;
+}
+
+#startCard h1 {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+}
+
+#characterSelectCard h2 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+}
+
+.subtitle {
+    margin: 0 auto 26px;
+    max-width: 460px;
+    color: #355462;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.selectedSummary {
+    margin: 0 0 24px;
+    color: #17303b;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+#startButton,
+#openCharacterSelectButton,
+#backToStartButton {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 999px;
+    font-size: 1.02rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#startButton {
+    background: linear-gradient(180deg, #f8d64c, #f0ac13);
+    color: #2d2103;
+    box-shadow: 0 12px 25px rgba(155, 103, 10, 0.3);
+}
+
+#openCharacterSelectButton,
+#backToStartButton {
+    background: #17303b;
+    color: #fff9e9;
+}
+
+#openCharacterSelectButton {
+    margin-left: 12px;
+}
+
+#startButton:hover,
+#openCharacterSelectButton:hover,
+#backToStartButton:hover {
+    transform: translateY(-1px);
+}
+
+#startButton:active,
+#openCharacterSelectButton:active,
+#backToStartButton:active {
+    transform: translateY(1px);
+}
+
+.characterSelectionGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin: 30px 0 24px;
+}
+
+.characterSelectOption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    min-height: 270px;
+    padding: 24px 20px;
+    border: 2px solid rgba(23, 48, 59, 0.14);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.82);
+    color: #17303b;
+    font-size: 1.08rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+}
+
+.characterSelectOption.active {
+    border-color: #f0ac13;
+    box-shadow: 0 14px 28px rgba(155, 103, 10, 0.2);
+}
+
+.largeCharacterThumb {
+    width: 150px;
+    height: 150px;
+    border-radius: 18px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.largeCharacterName {
+    font-size: 1.15rem;
+}
+
+.defaultThumb {
+    background-image: url("/static/run1.png");
+    background-color: rgba(248, 214, 76, 0.24);
+}
+
+.spongebobThumb {
+    background-image: url("/static/spongebob 1.png");
+    background-color: rgba(255, 244, 181, 0.45);
+}
+
+.hayaThumb {
+    background-image: url("/static/haya 1.png");
+    background-color: rgba(250, 229, 240, 0.55);
+}
+
+#game {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: url("/static/bg.jpg") repeat-x;
+    background-size: auto 100%;
+    background-position: 0 0;
+    will-change: background-position;
+}
+
+#game.prestart #ui,
+#game.prestart #player,
+#game.prestart #obstacle,
+#game.prestart #bird,
+#game.prestart #gameOverBox {
+    visibility: hidden;
+}
+
+#ui {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 20;
+    min-width: 210px;
+    padding: 18px 18px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(18, 53, 68, 0.82), rgba(14, 35, 46, 0.9));
+    box-shadow: 0 18px 34px rgba(10, 30, 40, 0.24);
+    backdrop-filter: blur(6px);
+}
+
+#ui h3 {
+    margin: 0;
+    color: #f5fbff;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+}
+
+#score {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    color: #ffe082;
+}
+
+#highScore {
+    color: #9ee7ff;
+}
+
+#ui button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px 14px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #f7d54b, #efa915);
+    color: #2e2100;
+    font-size: 0.98rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(239, 169, 21, 0.28);
+}
+
+#ui button:hover {
+    transform: translateY(-1px);
+}
+
+#ui button:active {
+    transform: translateY(1px);
+}
+
+#player {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    left: 100px;
+    bottom: 120px;
+    background-image: var(--runner-frame-1);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    animation: run 0.4s steps(1) infinite;
+}
+
+#player.jump {
+    animation: run 0.4s steps(1) infinite, jump 0.9s ease-out;
+}
+
+#player.duck {
+    height: 140px;
+    bottom: 120px;
+    background-image: var(--runner-duck-frame);
+}
+
+#obstacle {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 100vw;
+    bottom: 120px;
+    background: url("/static/obstacle.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    will-change: transform, left;
+}
+
+#bird {
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    top: 250px;
+    left: 100vw;
+    background: url("/static/bird.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    will-change: transform, left;
+}
+
+.hidden {
+    display: none;
+}
+
+#gameOverBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 30;
+    transform: translate(-50%, -50%);
+    min-width: 260px;
+    padding: 28px 32px;
+    border: 3px solid rgba(23, 48, 59, 0.14);
+    border-radius: 24px;
+    background: rgba(255, 252, 240, 0.96);
+    box-shadow: 0 20px 45px rgba(23, 48, 59, 0.28);
+    text-align: center;
+}
+
+#gameOverBox h2 {
+    margin: 0 0 18px;
+    color: #17303b;
+    font-size: 2rem;
+}
+
+#gameOverCharacterImage {
+    display: block;
+    width: 140px;
+    max-width: 100%;
+    margin: 0 auto 14px;
+    object-fit: contain;
+}
+
+#gameOverActions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+#gameOverBox button {
+    padding: 14px 26px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #ffb35c, #ff7a18);
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 12px 24px rgba(255, 122, 24, 0.3);
+}
+
+#goBackButton {
+    background: #17303b;
+    box-shadow: 0 12px 24px rgba(23, 48, 59, 0.25);
+}
+
+#gameOverBox button:hover {
+    transform: translateY(-1px);
+}
+
+#gameOverBox button:active {
+    transform: translateY(1px);
+}
+
+@keyframes run {
+    0% {
+        background-image: var(--runner-frame-1);
+    }
+
+    50% {
+        background-image: var(--runner-frame-2);
+    }
+
+    100% {
+        background-image: var(--runner-frame-1);
+    }
+}
+
+@keyframes jump {
+    0% {
+        bottom: 120px;
+    }
+
+    30% {
+        bottom: 320px;
+    }
+
+    55% {
+        bottom: 430px;
+    }
+
+    75% {
+        bottom: 350px;
+    }
+
+    100% {
+        bottom: 120px;
+    }
+}
